@@ -1,6 +1,7 @@
 import os
 import shutil
 import imp
+import sys
 from itertools import chain
 
 
@@ -38,7 +39,7 @@ def find_skel_dir(root_path):
     """Walks up from root_path, looking for a directory that matches the
     expected bpm skeleton directory path.
     """
-    root_path = os.path.dirname(os.path.abspath(__file__))
+    root_path = os.path.dirname(os.path.abspath(sys.argv[0]))
     return walk_up_until(root_path, 'share/bpm/skel')
 
 
@@ -57,7 +58,7 @@ def _apply_project(project_path, new_name):
 
     render_directory(project_path, project_context)
 
-    
+
 def project_create(args):
     """Implements the `create` command. It essentially copies the contents of
     `bpm/settings/skel/` into a directory to bootstrap a project's design.
@@ -67,9 +68,9 @@ def project_create(args):
         import virtualenv
     except:
         response = raw_input(dep_statement_bpm)
-    
+
     ### Find path to skel dir
-    bpm_path = os.path.dirname(os.path.abspath(__file__))
+    bpm_path = os.path.dirname(os.path.abspath(sys.argv[0]))
     skel_path = find_skel_dir(bpm_path)
 
     if not skel_path:
